@@ -3,6 +3,8 @@ package com.kakuritsu.cruddemo.service;
 
 import com.kakuritsu.cruddemo.dao.EmployeeRepository;
 import com.kakuritsu.cruddemo.entity.Employee;
+import com.kakuritsu.cruddemo.exceptions.EmployeeNotFoundException;
+import com.kakuritsu.cruddemo.util.MessageHelper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +25,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public
-    Optional<Employee> findById(int id){
-       return employeeRepository.findById(id);
+    public Employee findById(int id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(MessageHelper.employeeNotFound(id)));
     }
+
     @Transactional
     @Override
     public Employee save(Employee employee){
@@ -35,6 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     @Override
     public void deleteById(int id){
+        this.findById(id);
         employeeRepository.deleteById(id);
     }
 

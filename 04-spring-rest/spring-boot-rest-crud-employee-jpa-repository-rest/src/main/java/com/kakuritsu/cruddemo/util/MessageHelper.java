@@ -1,4 +1,4 @@
-package com.kakuritsu.cruddemo.dao.util;
+package com.kakuritsu.cruddemo.util;
 
 public class MessageHelper {
     public static String employeeNotFound(int employeeId){

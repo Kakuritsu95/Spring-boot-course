@@ -9,7 +9,7 @@ public interface EmployeeService  {
 
     public List<Employee> findAll();
 
-    public Optional<Employee> findById(int id);
+    public Employee findById(int id);
 
     public Employee save(Employee employee);
 
