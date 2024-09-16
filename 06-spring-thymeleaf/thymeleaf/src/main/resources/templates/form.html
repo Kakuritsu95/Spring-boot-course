@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/form.css}">
+</head>
+<body>
+<form th:action="/app/process-form" method="POST">
+    <input id="name" name="name" placeholder="What's your name?"/>
+    <label for="name"></label>
+    <button type="submit">Submit Query</button>
+</form>
+</body>
+</html>

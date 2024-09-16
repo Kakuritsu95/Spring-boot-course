@@ -2,5 +2,13 @@
 
 font-style: italic;
 color:green;
+text-align:center;
+vertical-align:top;
+background-color:red;
+margin:0 auto;
+padding:20px 0px;
+display:block;
+width:12rem;
+
 
 }
