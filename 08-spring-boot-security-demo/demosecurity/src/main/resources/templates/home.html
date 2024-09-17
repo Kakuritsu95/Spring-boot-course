@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymleaf.org/extras/spring-security">
+
+<head>
+    <title>Kakuritsu Company Home Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+<body>
+<header>
+    <p>
+        User: <span sec:authentication="principal.username"></span>
+    </p>
+   <p>
+    Role(s): <span sec:authentication="principal.authorities"></span>
+    </p>
+</header>
+<h2>Kakuritsu Company Home Page</h2>
+<hr/>
+Welcome to the kakuritsu company home page
+<form action="#" th:action="@{/logout}" method="POST">
+    <button type="submit">logout</button>
+</form>
+</body>
+
+</html>
