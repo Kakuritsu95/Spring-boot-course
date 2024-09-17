@@ -45,13 +45,21 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(configurer->
                 configurer
                         .requestMatchers("/styles/**").permitAll()
+                        .requestMatchers("/").hasAnyRole("EMPLOYEE","MANAGER","ADMIN")
+                        .requestMatchers("/leaders/**").hasAnyRole("MANAGER","ADMIN")
+                        .requestMatchers("/systems/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form->
                         form
                         .loginPage("/showMyLoginPage").loginProcessingUrl("/authenticateTheUser").permitAll()
                 )
-                        .logout(LogoutConfigurer::permitAll);
+                        .logout(LogoutConfigurer::permitAll)
+                        .exceptionHandling(configurer->
+                                configurer.accessDeniedPage("/authorizationFailed")
+
+                                );
+
 
         http.csrf(AbstractHttpConfigurer::disable);
        return http.build();

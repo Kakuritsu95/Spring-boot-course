@@ -9,6 +9,7 @@
   </head>
 <body>
 <header>
+    <h1 th:text="${header}"></h1>
     <p>
         User: <span sec:authentication="principal.username"></span>
     </p>
@@ -19,6 +20,22 @@
 <h2>Kakuritsu Company Home Page</h2>
 <hr/>
 Welcome to the kakuritsu company home page
+<div sec:authorize="hasRole('MANAGER')">
+    <p>
+        <a th:href="@{/leaders}">
+            Leadership Meeting
+        </a>
+    </p>
+</div>
+    <div sec:authorize="hasRole('ADMIN')">
+        <p>
+            <a th:href="@{/systems}">
+                IT Systems Meeting
+            </a>
+        </p>
+
+    </div>
+
 <form action="#" th:action="@{/logout}" method="POST">
     <button type="submit">logout</button>
 </form>
