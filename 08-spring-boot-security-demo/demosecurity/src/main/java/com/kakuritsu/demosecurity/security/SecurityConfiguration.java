@@ -1,16 +1,27 @@
 package com.kakuritsu.demosecurity.security;
 
+import com.kakuritsu.demosecurity.KakuUserManager;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.User;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.sql.DataSource;
 
@@ -18,27 +29,38 @@ import javax.sql.DataSource;
 public class SecurityConfiguration {
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager(){
+    UserDetailsManager userDetailsManager(DataSource dataSource){
 
-        UserDetails john = User.builder()
-                .username("john")
-                .password("{noop}test123")
-                .roles("EMPLOYEE")
-                .build();
+    JdbcUserDetailsManager theUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+    theUserDetailsManager.setUserExistsSql("select user_id from members where user_id=?");
+    theUserDetailsManager.setUsersByUsernameQuery("select user_id,pw,active from members where user_id = ?");
+    theUserDetailsManager.setAuthoritiesByUsernameQuery("select user_id,role from roles where user_id = ?");
+    return theUserDetailsManager;
 
-        UserDetails mary = User.builder()
-                .username("mary")
-                .password("{noop}test123")
-                .roles("EMPLOYEE", "MANAGER")
-                .build();
-        UserDetails susan = User.builder()
-                .username("susan")
-                .password("{noop}test123")
-                .roles("EMPLOYEE", "MANAGER", "ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(john,mary,susan);
     }
+
+//    @Bean
+//    public InMemoryUserDetailsManager userDetailsManagers(){
+//
+//        UserDetails john = User.builder()
+//                .username("john")
+//                .password("{noop}test123")
+//                .roles("EMPLOYEE")
+//                .build();
+//
+//        UserDetails mary = User.builder()
+//                .username("mary")
+//                .password("{noop}test123")
+//                .roles("EMPLOYEE", "MANAGER")
+//                .build();
+//        UserDetails susan = User.builder()
+//                .username("susan")
+//                .password("{noop}test123")
+//                .roles("EMPLOYEE", "MANAGER", "ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(john,mary,susan);
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
