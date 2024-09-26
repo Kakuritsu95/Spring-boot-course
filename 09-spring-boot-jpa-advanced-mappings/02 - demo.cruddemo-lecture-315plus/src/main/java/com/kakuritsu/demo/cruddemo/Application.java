@@ -29,19 +29,25 @@ private final InstructorService instructorService;
 		SpringApplication.run(Application.class, args);
 	}
 	@Bean
-
 	public CommandLineRunner commandLineRunner(String[] args){
 
 		return runner-> {
 			System.out.println("Hello World");
            Course createdCourse = new Course("Hibernate relational mappings");
+			Course createdCourse2 = new Course("ManyToMany special");
 			Student student1 = new Student("papas", "papakis", "papaki@papaki.com");
-		   instructorService.saveCourse(createdCourse);
+			Student student2 = new Student("megalos", "paikths", "paiktaras@gmail.com");
+		    instructorService.saveCourse(createdCourse);
+			instructorService.saveCourse(createdCourse2);
            Course course = instructorService.findCourseById(1);
-		   course.setReviews(null);
+			Course course2 = instructorService.findCourseById(2);
+			course2.setReviews(null);
+			course2.setStudents(null);
+		    course.setReviews(null);
 			course.setStudents(null);
             course.addStudent(student1);
-
+			course.addStudent(student2);
+			course2.addStudent(student1);
 		   Review review1 = new Review("Excellent Course");
 		   Review review2 = new Review("That helped me a lot");
 		   Review review3 = new Review("NO SENSE! BAD BAD BAD!");
@@ -49,9 +55,15 @@ private final InstructorService instructorService;
 		   course.addReview(review2);
 		   course.addReview(review3);
 		   instructorService.saveCourse(course);
-           System.out.println(instructorService.findCourseByIdJoinFetchReviews(1).getReviews());
-		   instructorService.deleteCourseById(1);
-//		   instructorService.deleteCourseById(1);
+		   instructorService.saveCourse(course2);
+          List<Course> courses = instructorService.findStudentsByCourseIdJoinFetch(1);
+
+		  Student studentWithId2 = instructorService.findStudentById(2);
+           studentWithId2.addCourse(new Course("Mathete mpalitsa"));
+		   instructorService.saveStudent(studentWithId2);
+		   System.out.println(studentWithId2);
+//		   instructorService.deleteCourseById(2);
+//			instructorService.deleteStudentById(1);
 		};
 
 

@@ -2,6 +2,7 @@ package com.kakuritsu.demo.cruddemo.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,6 +37,15 @@ public class Student {
                inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private List<Course> courses;
+
+
+    public void addCourse(Course course){
+        if(this.courses==null){
+            this.courses = new ArrayList<>();
+        }
+        this.courses.add(course);
+    }
+
 
     public int getId() {
         return id;

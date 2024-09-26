@@ -109,5 +109,24 @@ public class InstructorDaoImpl implements InstructorDao{
     public void saveStudent(Student student){
         entityManager.merge(student);
     }
+    @Override
+    public List<Course> findStudentsByCourseIdJoinFetch(int id) {
+        TypedQuery<Course> theQuery = entityManager.createQuery(
+                "SELECT c FROM Course c JOIN FETCH c.students s WHERE s.id = :data", Course.class);
+        theQuery.setParameter("data", id);
+        return theQuery.getResultList();
+    }
+@Override
+    public Student findStudentById(int id){
+        TypedQuery<Student> theQuery = entityManager.createQuery("select s FROM Student s JOIN FETCH s.courses where s.id = :data",Student.class);
+        theQuery.setParameter("data",id);
+        return theQuery.getSingleResult();
+    }
 
+    @Override
+
+    public void deleteStudentById(int id){
+       Student tempStudent = this.findStudentById(id);
+       entityManager.remove(tempStudent);
+    }
 }

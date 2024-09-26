@@ -36,6 +36,7 @@ public class Instructor {
     private InstructorDetails instructorDetails;
 
     @OneToMany(mappedBy ="instructor", fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+
     private List<Course> courses;
 
     public int getId() {

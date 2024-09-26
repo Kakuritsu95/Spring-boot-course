@@ -38,5 +38,10 @@ public interface InstructorDao {
     public Course findCourseByIdJoinFetch(int id);
 
     public void saveStudent(Student student);
+
+    public List<Course> findStudentsByCourseIdJoinFetch(int id);
+    public Student findStudentById(int id);
+
+    public void deleteStudentById(int id);
 }
 

@@ -102,4 +102,17 @@ public InstructorServiceImpl(InstructorDao theInstructorDao){
       instructorDao.saveStudent(student);
     }
 
+    @Override
+    public List<Course> findStudentsByCourseIdJoinFetch(int id){
+    return instructorDao.findStudentsByCourseIdJoinFetch(id);
+    }
+    public Student findStudentById(int id){
+   return instructorDao.findStudentById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudentById(int id){
+    instructorDao.deleteStudentById(id);
+    }
 }

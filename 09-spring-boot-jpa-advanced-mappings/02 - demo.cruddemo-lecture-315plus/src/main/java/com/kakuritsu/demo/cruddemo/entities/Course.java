@@ -96,6 +96,9 @@ public void addStudent(Student student){
         return "Course{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
+//                ", instructor=" + instructor +
+//                ", reviews=" + reviews +
+//                ", students=" + students +
                 '}';
     }
 }
