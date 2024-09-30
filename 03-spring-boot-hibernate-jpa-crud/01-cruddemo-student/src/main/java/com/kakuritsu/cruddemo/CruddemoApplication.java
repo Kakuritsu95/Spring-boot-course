@@ -3,12 +3,14 @@ package com.kakuritsu.cruddemo;
 import com.kakuritsu.cruddemo.dao.StudentDaoImpl;
 import com.kakuritsu.cruddemo.entity.Student;
 import com.kakuritsu.cruddemo.interfaces.IStudentDao;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,33 +28,38 @@ public class CruddemoApplication {
 
 		return runner-> {
 
-//			createStudent(studentDao);
+			createStudent(studentDao);
 			createMultipleStudents(studentDao);
-//			Student studentWithId4 =  getStudentById(studentDao,20);
-//			System.out.println(studentWithId4);
-//			System.out.println(this.getAllStudentsWhosFirstNameStartsWith(studentDao,"M"));
-//			for(Student tempStudent: this.getAllStudentsWhosFirstNameStartsWith(studentDao,"John")){
-//				System.out.println(tempStudent);
-//			}
-//			Student tempStudent = studentDao.findById(3);
-//			tempStudent.setLastName("New Newman");
-//			studentDao.update(tempStudent);
+			Student studentWithId4 =  getStudentById(studentDao,20);
+			System.out.println(studentWithId4);
+			System.out.println(this.getAllStudentsWhosFirstNameStartsWith(studentDao,"M"));
+			for(Student tempStudent: this.getAllStudentsWhosFirstNameStartsWith(studentDao,"John")){
+				System.out.println(tempStudent);
+			}
+			Student tempStudent = studentDao.findById(3);
+			tempStudent.setLastName("New Newman");
+			studentDao.update(tempStudent);
+
+			System.out.println(studentDao.findById(3));
+
+			System.out.print(studentDao.findById(2));
+			studentDao.deleteStudent(2);
+			System.out.print(studentDao.findById(2));
 //
-//			System.out.println(studentDao.findById(3));
-//			
-//			System.out.print(studentDao.findById(2));
-//			studentDao.deleteStudent(2);
-//			System.out.print(studentDao.findById(2));
-////
 //          Delete all students
-//			int numberOfDeletedStudents = studentDao.deleteAllStudents();
+			int numberOfDeletedStudents = studentDao.deleteAllStudents();
 
+		    String postalcode = "  ";
 
-
+			System.out.println(Strings.isBlank(postalcode));
 		};
 
 	}
-
+	public static boolean isValidNumberSequenceOfExactNumberOfCharacters(String input, int numberOfChars){
+		if(input==null)return false;
+		String regex = String.format("^(?:\\s*\\d\\s*){%d}$",numberOfChars);
+		return input.matches(regex);
+	}
 	private void createMultipleStudents(IStudentDao studentDao) {
 
 		//create multiple students

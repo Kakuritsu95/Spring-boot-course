@@ -2,5 +2,7 @@ package com.kakuritsu.aopdemo.dao;
 
 public interface MembershipDAO {
 
-    Boolean addSillyMember();
+    boolean addSillyMember();
+
+    void goToSleep();
 }
