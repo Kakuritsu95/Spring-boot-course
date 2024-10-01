@@ -5,9 +5,12 @@ import org.aspectj.lang.annotation.Pointcut;
 public class AspectUtils {
 
     @Pointcut("execution(* com.kakuritsu.springboot.thymeleafdemo.controller.*.*(..))")
-    public void controllerFolderPointCut(){}
+    public void controllerFolderPointcut(){}
     @Pointcut("execution(* com.kakuritsu.springboot.thymeleafdemo.dao.*.*(..))")
-    public void daoFolderPointCut(){}
+    public void daoFolderPointcut(){}
     @Pointcut("execution(* com.kakuritsu.springboot.thymeleafdemo.service.*.*(..))")
-    public void serviceFolderPointCut(){}
+    public void serviceFolderPointcut(){}
+
+    @Pointcut("controllerFolderPointcut() || daoFolderPointcut() || serviceFolderPointcut()")
+    public void comboPointcut(){}
 }
